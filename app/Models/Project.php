@@ -15,7 +15,7 @@ class Project extends Model
         return $this->belongsTo(Type::class);
     }
     public function technologies(){
-        return $this->belongsToMany(Technology::class)->withPivot('project_technologies');
+        return $this->belongsToMany(Technology::class);//Ho dovuto levare il pivot e HasFactory
     }
 
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Project;
 use App\Models\Technology;
 use App\Models\Type;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -15,8 +16,9 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::paginate(10);
-        return view('admin.projects.index', compact('projects'));
+        $types = Type::all();
+        $projects = Project::with('type')->paginate(10);
+        return view('admin.projects.index', compact('projects', 'types'));
     }
 
     /**
@@ -32,13 +34,30 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
+
         $form_data = $request->all();
+        $messages = [
+            'title.required' => 'The project name is required.',
+            'title.min' => 'The project name cannot be under 5 characters.',
+            'title.max' => 'The project name cannot exceed 255 characters.',
+            'start_date.required' => 'The project start date is required.',
+            'start_date.date' => 'Please enter a valid date for the project start date.',
+            'description.required' => 'The description is required.',
+            'description.string' => 'The description must be a string.',
+            'description.min' => 'The description name cannot be under 10 characters.',
+        ];
+        $request->validate([
+            'title' => 'required|string|min:5|max:255',
+            'start_date' => 'required|date',
+            'description' => 'required|string|min:10',
+        ], $messages);
 
         $new_project = new Project();
         $new_project->fill($form_data);
         $new_project->save();
 
-        return redirect()->route('admin.project.show', $new_project->id);
+
+        return redirect()->route('admin.project.show', $new_project->id)->with('success', 'Project created successfully!');
     }
 
     /**
@@ -115,5 +134,3 @@ class ProjectController extends Controller
         return redirect()->route('admin.project.index')->with('success', 'Project successfully deleted.');
     }
 }
-
-

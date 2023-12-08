@@ -1,6 +1,11 @@
 @extends('admin.home')
 
 @section('content')
+@if(session('success'))
+<div class="alert alert-success">
+    {{ session('success') }}
+</div>
+@endif
     <div class="d-flex flex-column justify-content-between h-100 ">
         <div class="h-100 ">
             <h1 class="d-flex justify-content-evenly my-2">

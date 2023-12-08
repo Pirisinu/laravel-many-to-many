@@ -7,14 +7,14 @@ use App\Models\Technology;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class ProjectTechnologyTableSeeder extends Seeder
+class ProjectsTechnologiesTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        for($i = 0; $i < 70; $i++) {
+        for($i = 0; $i < 110; $i++) {
 
             $project = Project::inRandomOrder()->first();
 
@@ -24,3 +24,4 @@ class ProjectTechnologyTableSeeder extends Seeder
         }
     }
 }
+

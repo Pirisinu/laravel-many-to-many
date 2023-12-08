@@ -29,6 +29,19 @@
                 @else
                     <p>Nessuna tecnologia utilizzata</p>
                 @endif
+
+                @if ($project->technologies)
+                    <p><strong>Technologies:</strong></p>
+                    <ul>
+                        @foreach ($project->technologies as $technology)
+                            <li>{{ $technology->name }}</li>
+                        @endforeach
+                    </ul>
+                @else
+                    <p>Nessuna tecnologia associata a questo progetto</p>
+                @endif
+
+
                 <p class="card-text"><strong>Project description:</strong> {{ $project->description }}</p>
                 <a href="{{route('admin.project.show', $project)}}" class="btn btn-primary">More info</a>
             </div>

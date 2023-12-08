@@ -8,9 +8,10 @@ use App\Models\Project;
 
 class Technology extends Model
 {
+    use HasFactory;
     protected $guarded = ['id'];
 
     public function projects(){
-        return $this->belongsToMany(Project::class)->withPivot('project_technologies');
+        return $this->belongsToMany(Project::class)->withPivot('projecty_technology');
     }
 }
