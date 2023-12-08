@@ -26,7 +26,9 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('admin.projects.create');
+        $project = Project::all();
+        $types = Type::all();
+        return view('admin.projects.create', compact('types', 'project'));
     }
 
     /**
@@ -76,6 +78,7 @@ class ProjectController extends Controller
     public function edit($id)
     {
         $projectToEdit = Project::find($id);
+        $types = Type::all();
 
         if (!$projectToEdit) {
             return redirect()
@@ -83,7 +86,7 @@ class ProjectController extends Controller
                 ->with('error', 'Project not found.');
         }
 
-        return view('admin.projects.edit', compact('projectToEdit'));
+        return view('admin.projects.edit', compact('projectToEdit', 'types'));
     }
 
     /**

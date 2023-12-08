@@ -24,6 +24,7 @@
               <label for="title" class="form-label">Name:</label>
               <input type="text" placeholder="Project name" class="form-control" name="title" id="title" value="{{ old('title', $projectToEdit->title) }}">
             </div>
+
             {{-- DATE --}}
             <div class="col-md-6">
               <label for="start_date" class="form-label">Project start date:</label>
