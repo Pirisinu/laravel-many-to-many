@@ -11,10 +11,10 @@ class Project extends Model
 {
 
     protected $guarded = ['id'];
-    public function types(){
+    public function type(){
         return $this->belongsTo(Type::class);
     }
-    public function technologies(){
+    public function technology(){
         return $this->belongsToMany(Technology::class)->withPivot('project_technologies');
     }
 

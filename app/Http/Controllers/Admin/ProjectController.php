@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use App\Models\Technology;
+use App\Models\Type;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -14,9 +15,8 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $technology = Technology::all();
         $projects = Project::paginate(10);
-        return view('admin.projects.index', compact('projects', 'technology'));
+        return view('admin.projects.index', compact('projects'));
     }
 
     /**
