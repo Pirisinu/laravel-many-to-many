@@ -32,11 +32,25 @@ class TypeController extends Controller
     {
         $form_data = $request->all();
 
+        $messages = [
+            'title.required' => 'The type name is required.',
+            'title.min' => 'The type name cannot be under 5 characters.',
+            'title.max' => 'The type name cannot exceed 255 characters.',
+            'description.required' => 'The description is required.',
+            'description.string' => 'The description must be a string.',
+            'description.min' => 'The description name cannot be under 10 characters.',
+        ];
+        $request->validate([
+            'title' => 'required|string|min:5|max:255',
+            'start_date' => 'required|date',
+            'description' => 'required|string|min:10',
+        ], $messages);
+
         $new_type = new Type();
         $new_type->fill($form_data);
         $new_type->save();
 
-        return redirect()->route('admin.types.show', $new_type->id);
+        return redirect()->route('admin.types.show', $new_type->id)->with('success', 'Project created successfully!');
     }
 
     /**

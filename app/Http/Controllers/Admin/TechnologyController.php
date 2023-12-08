@@ -32,11 +32,25 @@ class TechnologyController extends Controller
     {
         $form_data = $request->all();
 
+        $messages = [
+            'title.required' => 'The technology name is required.',
+            'title.min' => 'The technology name cannot be under 5 characters.',
+            'title.max' => 'The technology name cannot exceed 255 characters.',
+            'description.required' => 'The description is required.',
+            'description.string' => 'The description must be a string.',
+            'description.min' => 'The description name cannot be under 10 characters.',
+        ];
+        $request->validate([
+            'title' => 'required|string|min:5|max:255',
+            'start_date' => 'required|date',
+            'description' => 'required|string|min:10',
+        ], $messages);
+
         $new_technology = new Technology();
         $new_technology->fill($form_data);
         $new_technology->save();
 
-        return redirect()->route('admin.technology.show', $new_technology->id);
+        return redirect()->route('admin.technology.show', $new_technology->id)->with('success', 'Project created successfully!');
     }
 
     /**
