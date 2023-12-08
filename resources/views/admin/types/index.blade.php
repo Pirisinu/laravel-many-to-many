@@ -21,10 +21,8 @@
           <h4><strong>{{ $type->name }}</strong></h4>
         </div>
         <div class="card-body">
-          <p class="card-text"><strong>Type description:</strong> {{ $type->description }}</p>
-
-        </div>
-        <div class="card-footer text-muted">
+            <h5 class="card-title"><strong>Type description:</strong></h5>
+            <p class="card-text">{{ $type->description }}</p>
             <a href="{{route('admin.type.show', $type)}}" class="btn btn-primary">More info</a>
         </div>
       </div>
