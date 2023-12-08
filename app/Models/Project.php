@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Technology;
+use App\Models\Type;
 
 class Project extends Model
 {
 
     protected $guarded = ['id'];
-    public function technology(){
-        return $this->belongsTo(Technology::class);
+    public function types(){
+        return $this->belongsTo(Type::class);
     }
 
 }
