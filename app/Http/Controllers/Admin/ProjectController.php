@@ -28,7 +28,8 @@ class ProjectController extends Controller
     {
         $project = Project::all();
         $types = Type::all();
-        return view('admin.projects.create', compact('types', 'project'));
+        $technologies = Technology::all();
+        return view('admin.projects.create', compact('types','technologies', 'project'));
     }
 
     /**
@@ -44,12 +45,15 @@ class ProjectController extends Controller
             'title.max' => 'The project name cannot exceed 255 characters.',
             'start_date.required' => 'The project start date is required.',
             'start_date.date' => 'Please enter a valid date for the project start date.',
+            'technologies.required' => 'The technologies is required.',
             'description.required' => 'The description is required.',
             'description.string' => 'The description must be a string.',
             'description.min' => 'The description name cannot be under 10 characters.',
         ];
         $request->validate([
             'title' => 'required|string|min:5|max:255',
+            'type' => 'nullable',
+            'technologies' => 'required',
             'start_date' => 'required|date',
             'description' => 'required|string|min:10',
         ], $messages);
@@ -57,6 +61,7 @@ class ProjectController extends Controller
         $new_project = new Project();
         $new_project->fill($form_data);
         $new_project->save();
+        $new_project->technologies()->attach($request->input('technologies'));
 
 
         return redirect()->route('admin.project.show', $new_project->id)->with('success', 'Project created successfully!');
@@ -67,9 +72,10 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
+        $types = Type::all();
         $next = Project::where('id', '>', $project->id)->first();
         $prev = Project::where('id', '<', $project->id)->orderBy('id', 'desc')->first();
-        return view('admin.projects.show', compact('project', 'next', 'prev'));
+        return view('admin.projects.show', compact('project', 'types' , 'next', 'prev'));
     }
 
     /**
@@ -79,14 +85,14 @@ class ProjectController extends Controller
     {
         $projectToEdit = Project::find($id);
         $types = Type::all();
-
+        $technologies = Technology::all();
         if (!$projectToEdit) {
             return redirect()
                 ->route('admin.project.index')
                 ->with('error', 'Project not found.');
         }
 
-        return view('admin.projects.edit', compact('projectToEdit', 'types'));
+        return view('admin.projects.edit', compact('projectToEdit', 'types','technologies'));
     }
 
     /**
@@ -119,7 +125,11 @@ class ProjectController extends Controller
             'description' => $request->input('description')
         ]);
 
+        $project->type_id = $request->input('type_id');
         $project->save();
+
+        $selectedTechnologies = $request->input('technologies', []);
+        $project->technologies()->sync($selectedTechnologies);
 
         return redirect()
             ->route('admin.project.show', ['project' => $project->id])

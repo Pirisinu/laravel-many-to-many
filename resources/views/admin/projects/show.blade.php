@@ -25,8 +25,21 @@
                 <strong>Project name:</strong>
                 {{$project->title}}
             </h2>
+
             <div>
-                <h3>Description:</h3>
+                <h2>
+                    <strong>Technologies:</strong>
+                </h2>
+                <ul>
+                    @foreach ($project->technologies as $technologies)
+                        <li>{{$technologies->name}}</li>
+                    @endforeach
+                </ul>
+                <h2>
+                    <strong>Type:</strong>
+                </h2>
+                <p>{{$project->type->name}}</p>
+                <h3><strong>Description:</strong></h3>
                 <p>{{$project->description}}</p>
             </div>
             @include('partials.btn_next_prev')

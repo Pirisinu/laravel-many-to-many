@@ -43,7 +43,14 @@
 
 
                 <p class="card-text"><strong>Project description:</strong> {{ $project->description }}</p>
-                <a href="{{route('admin.project.show', $project)}}" class="btn btn-primary">More info</a>
+                <form action={{route('admin.project.destroy', $project)}} method="post" onsubmit="return confirm('Are you sure you want to delete this project?')">
+                    @csrf
+                    @method('DELETE')
+                    <a href="{{route('admin.project.show', $project)}}" class="btn btn-primary">More info</a>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fa-solid fa-trash fa-bounce"></i>
+                    </button>
+                </form>
             </div>
             <div class="card-footer text-muted">
                 <strong><a href="{{ $project->website_url }}">See more on GitHub</a></strong>
